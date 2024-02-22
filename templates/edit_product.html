@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Product</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Grocery Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Edit Product</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form action="/edit_product/{{ product.Product_id }}" method="POST">
+          <div class="form-group">
+            <label for="product_name">Product Name</label>
+            <input type="text" class="form-control" name="product_name" id="product_name" value="{{ product.Product_name }}">
+          </div>
+          <div class="form-group">
+            <label for="rate">Rate per unit</label>
+            <input type="number" class="form-control" name="rate" id="rate" value="{{ product.Rate_per_unit }}">
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" name="quantity" id="quantity" value="{{ product.Quantity }}">
+          </div>
+          <div class="form-group">
+            <label for="expiry_date">Expiry Date</label>
+            <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="{{ product.Expiry_date }}">
+          </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

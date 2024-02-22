@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Welcome {{user_data.User_name}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+            <form method ="POST" action ="/logout">
+                <button class="btn btn-danger" >Logout</button>
+              </form> 
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('cart') }}">Cart</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div class="alert alert-info">
+    <ul>
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Products by Categories</h2>
+    <form method="POST" action="{{ url_for('user_dashboard', User_name=user_data.User_name) }}" class="mb-3">
+      <div class="input-group">
+        <input type="text" class="form-control" name="search" placeholder="Search for products">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
+    </form>
+    {% for category, products in cat_product.items() %}
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">{{ category.Category_name }}</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              {% for product in products %}
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  {% if product.Image_url %}
+                  <img src="{{ url_for('uploaded_file', filename=product.Image_url) }}" class="card-img-top mx-auto d-block" alt="Product Image" style="max-width: 150px; max-height: 150px;">
+                  {% else %}
+                  <img src="{{ url_for('static', filename='placeholder_image.png') }}" class="card-img-top mx-auto d-block" alt="Placeholder Image" style="max-width: 150px; max-height: 150px;">
+                  {% endif %}
+                  <div class="card-body">
+                    <h6 class="card-title">{{ product.Product_name }}</h6>
+                    <p class="card-text">Rate per Unit: {{ product.Rate_per_unit }}₹</p>
+                    <p class="card-text">Available Quantity: {{ product.Stock }}</p>
+                    <p class="card-text">Expiry Date: {{ product.Expiry_date }}</p>
+                    
+                    <form action="{{ url_for('add_to_cart') }}" method="post">
+                      <label for="quantity{{ product.Product_id }}">Select Quantity:</label>
+                      <input type="hidden" name="product_id" value="{{ product.Product_id }}">
+                      <input type="number" id="quantity{{ product.Product_id }}" name="quantity" class="form-control" min="1" max="10" value="1">
+                      <button type="submit" class="btn btn-primary mt-2">Add to Cart</button>
+                  </form>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  </body>
+  </html>

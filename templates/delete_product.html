@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Delete Product</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Grocery Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            
+            <li class="nav-item">
+              <form method ="POST" action ="/logout">
+              <button class="btn btn-danger" >Logout</button>
+            </form>
+            </li>
+         
+          </ul>
+        </div>
+      </nav>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Delete Product</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <p>Are you sure you want to delete the product "{{ product.Product_name }}"?</p>
+        <form action="/delete_product/{{ product.Product_id }}" method="POST">
+          <button type="submit" class="btn btn-danger">Delete</button>
+          <a href="{{ url_for('Manager_dashboard', Manager_name=session['Manager_name']) }}" class="btn btn-secondary">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
